@@ -1,0 +1,35 @@
+---
+import { categories, categoryKeys, type Category } from '../data/site';
+
+interface Props {
+  active?: Category;
+}
+
+const { active } = Astro.props;
+const options = [
+  { href: '/work/', label: 'All work', current: !active },
+  ...categoryKeys.map((key) => ({
+    href: `/work/category/${key}/`,
+    label: categories[key].label,
+    current: key === active,
+  })),
+];
+---
+
+<nav aria-label="Filter by kind of work">
+  <ul class="flex flex-wrap gap-2">
+    {
+      options.map((option) => (
+        <li>
+          <a
+            href={option.href}
+            aria-current={option.current ? 'page' : undefined}
+            class="inline-block border border-cobalt px-3 py-1.5 text-cobalt transition-colors hover:bg-cobalt hover:text-paper aria-[current=page]:bg-cobalt aria-[current=page]:text-paper"
+          >
+            {option.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

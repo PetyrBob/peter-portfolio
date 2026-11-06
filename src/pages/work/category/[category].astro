@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import CategoryFilter from '../../../components/CategoryFilter.astro';
+import ProjectGrid from '../../../components/ProjectGrid.astro';
+import { categories, categoryKeys, type Category } from '../../../data/site';
+import { getProjects } from '../../../data/projects';
+
+export function getStaticPaths() {
+  return categoryKeys.map((category) => ({ params: { category } }));
+}
+
+const category = Astro.params.category as Category;
+const { label, blurb } = categories[category];
+const projects = (await getProjects()).filter((project) => project.data.category === category);
+---
+
+<Layout title={label} description={blurb}>
+  <div class="page pt-10">
+    <h1 class="display mb-3 text-5xl md:text-8xl">{label}</h1>
+    <p class="mb-8 text-xl">{blurb}</p>
+    <CategoryFilter active={category} />
+    <div class="mt-12">
+      {
+        projects.length > 0 ? (
+          <ProjectGrid projects={projects} />
+        ) : (
+          <p>
+            No projects here yet. <a class="underline" href="/work/">See all work</a>
+          </p>
+        )
+      }
+    </div>
+  </div>
+</Layout>

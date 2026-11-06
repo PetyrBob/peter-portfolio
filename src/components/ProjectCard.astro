@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { categories } from '../data/site';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  large?: boolean;
+}
+
+const { project, large = false } = Astro.props;
+const { title, summary, category, cover, coverAlt, year } = project.data;
+---
+
+<article class:list={['group', large && 'md:col-span-2']}>
+  <a href={`/work/${project.id}/`} class="block">
+    <div class="overflow-hidden bg-line">
+      <Image
+        src={cover}
+        alt={coverAlt}
+        widths={[480, 800, 1200, 1600]}
+        sizes={large ? '(min-width: 768px) 92vw, 100vw' : '(min-width: 768px) 46vw, 100vw'}
+        class:list={['w-full object-cover', large ? 'aspect-[16/9]' : 'aspect-[4/3]']}
+      />
+    </div>
+    <h3 class="mt-4 font-display text-2xl leading-tight font-bold text-cobalt group-hover:underline">
+      {title}
+    </h3>
+  </a>
+  <p class="mt-1 max-w-[60ch]">{summary}</p>
+  <p class="mt-1 text-muted">{categories[category].label}, {year}</p>
+</article>

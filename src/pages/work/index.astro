@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { getProjects } from '../../data/projects';
+
+const projects = await getProjects();
+---
+
+<Layout title="Work" description="All projects by Peter Bob Domogma.">
+  <div class="page pt-10">
+    <h1 class="display mb-8 text-6xl md:text-8xl">Work</h1>
+    <CategoryFilter />
+    <div class="mt-12"><ProjectGrid projects={projects} /></div>
+  </div>
+</Layout>

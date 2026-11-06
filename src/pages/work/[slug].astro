@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { categories } from '../../data/site';
+import { getProjects } from '../../data/projects';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, index) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(index + 1) % projects.length] },
+  }));
+}
+
+const { project, next } = Astro.props;
+const { title, summary, category, cover, coverAlt, role, tools, year, links } = project.data;
+const { Content } = await render(project);
+const details = [
+  { term: 'Kind of work', value: categories[category].label },
+  { term: 'Role', value: role },
+  { term: 'Tools', value: tools.join(', ') },
+  { term: 'Year', value: String(year) },
+].filter((detail) => detail.value);
+---
+
+<Layout title={title} description={summary}>
+  <article class="page pt-10">
+    <h1 class="display max-w-[16ch] text-5xl md:text-8xl">{title}</h1>
+    <p class="mt-6 max-w-[40ch] text-2xl leading-snug">{summary}</p>
+
+    <Image
+      src={cover}
+      alt={coverAlt}
+      widths={[800, 1200, 1600, 2000]}
+      sizes="(min-width: 1440px) 1328px, 92vw"
+      class="mt-10 w-full bg-line"
+      priority
+    />
+
+    <div class="mt-12 grid gap-10 md:grid-cols-[16rem_1fr]">
+      <aside>
+        <dl class="grid gap-4">
+          {
+            details.map((detail) => (
+              <div>
+                <dt class="text-muted">{detail.term}</dt>
+                <dd>{detail.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        {
+          links.length > 0 && (
+            <ul class="mt-6 grid gap-2">
+              {links.map((link) => <li><a class="text-cobalt underline" href={link.url}>{link.label}</a></li>)}
+            </ul>
+          )
+        }
+      </aside>
+      <div class="prose-case [&>h2:first-child]:mt-0">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <nav class="page mt-20" aria-label="Next project">
+    <a href={`/work/${next.id}/`} class="group block border-t-2 border-cobalt pt-4">
+      <span class="text-muted">Next project</span>
+      <span class="display mt-1 block text-4xl group-hover:underline md:text-6xl">{next.data.title}</span>
+    </a>
+  </nav>
+</Layout>

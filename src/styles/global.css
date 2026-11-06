@@ -1,0 +1,123 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/anybody/wdth.css';
+@import '@fontsource-variable/hanken-grotesk/wght.css';
+
+/* Your design tokens. Change these and the whole site follows. */
+@theme {
+  --color-paper: #f6f7fb;
+  --color-ink: #15173a;
+  --color-muted: #555877;
+  --color-cobalt: #2036e8;
+  --color-pink: #ff5c8a;
+  --color-line: #cfd2e6;
+
+  --font-display: 'Anybody Variable', 'Arial Narrow', sans-serif;
+  --font-sans: 'Hanken Grotesk Variable', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .page {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 3.5rem);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    color: var(--color-cobalt);
+  }
+
+  /* The signature: a second ink printed slightly out of register. */
+  .overprint {
+    position: relative;
+    display: block;
+    isolation: isolate;
+  }
+
+  .overprint::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--color-pink);
+    mix-blend-mode: multiply;
+    transform: translate(0.035em, 0.035em);
+    pointer-events: none;
+  }
+
+  /* Project write-ups */
+  .prose-case {
+    max-width: 42rem;
+  }
+
+  .prose-case h2 {
+    margin-top: 2.5rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-cobalt);
+  }
+
+  .prose-case p,
+  .prose-case ul {
+    margin-top: 0.75rem;
+  }
+
+  .prose-case ul {
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+
+  .prose-case a {
+    color: var(--color-cobalt);
+    text-decoration: underline;
+  }
+
+  .prose-case img {
+    margin-block: 2rem;
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import { categories, categoryKeys, site } from '../data/site';
+import { getProjects } from '../data/projects';
+
+const projects = await getProjects();
+const featured = projects.filter((project) => project.data.featured);
+const nameLines = site.name.split(' ');
+---
+
+<Layout>
+  <section class="page pt-10 pb-16 md:pt-16">
+    <h1 class="display text-[clamp(3rem,12.5vw,12rem)] [font-stretch:125%]" aria-label={site.name}>
+      {nameLines.map((line) => <span class="overprint" data-text={line} aria-hidden="true">{line}</span>)}
+    </h1>
+    <p class="mt-8 max-w-[30ch] text-2xl leading-snug md:text-3xl">{site.intro}</p>
+  </section>
+
+  <section class="page" aria-labelledby="kinds">
+    <h2 id="kinds" class="sr-only">Kinds of work</h2>
+    <ul class="border-t-2 border-cobalt">
+      {
+        categoryKeys.map((key) => {
+          const count = projects.filter((project) => project.data.category === key).length;
+          return (
+            <li class="border-b-2 border-cobalt">
+              <a
+                href={`/work/category/${key}/`}
+                class="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 py-4 md:py-5"
+              >
+                <span class="font-display text-[clamp(1.75rem,5vw,4.5rem)] leading-none font-bold text-cobalt transition-[font-stretch] duration-300 [font-stretch:75%] group-hover:[font-stretch:125%] group-focus-visible:[font-stretch:125%]">
+                  {categories[key].label}
+                </span>
+                <span class="text-muted">
+                  {categories[key].blurb} {count} {count === 1 ? 'project' : 'projects'}.
+                </span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+
+  <section class="page mt-24" aria-labelledby="selected">
+    <div class="mb-8 flex flex-wrap items-baseline justify-between gap-4">
+      <h2 id="selected" class="display text-4xl md:text-5xl">Selected work</h2>
+      <a href="/work/" class="underline">See all work</a>
+    </div>
+    <ProjectGrid projects={featured} />
+  </section>
+</Layout>
