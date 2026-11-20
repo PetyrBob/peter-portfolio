@@ -13,23 +13,24 @@ npm run dev
 
 Open http://localhost:4321.
 
-## Change things
+## Add projects and edit your details (no code)
+
+1. Go to https://app.pagescms.org and sign in with GitHub.
+2. Open `peter-portfolio`. If it isn't listed, install the Pages CMS GitHub app on this repo.
+3. Use **Projects** to add work, **Profile** for your name, intro, email, resume and links, and **About page** for your About text.
+4. Click **Save**. Vercel publishes the change in about a minute.
+
+Pages CMS reads its settings from `.pages.yml`. Images go in `src/assets/projects`, and PDFs in `public/files`.
+
+To add a project by hand instead, copy one of the files in `src/content/projects`, rename it, and edit it. Delete the `sample-*` projects and their images when your real work is in.
+
+## Change the design
 
 | To change | Edit |
 | --- | --- |
-| Name, intro, email, links, resume | `src/data/site.ts` |
 | Colors and fonts | `src/styles/global.css` |
-| About page | `src/pages/about.astro` |
-| Kinds of work | `src/data/site.ts` |
-
-## Add a project
-
-1. Put your images in a new folder: `src/assets/projects/your-project/`.
-2. Copy `src/content/projects/_template.mdx` and rename it `your-project.mdx`.
-3. Fill in the details and set `draft: false`.
-4. Commit and push. Vercel publishes it automatically.
-
-Delete the five `sample-*.mdx` files and their image folders when your real projects are in.
+| Page layouts | `src/pages` and `src/components` |
+| Kinds of work | `src/data/site.ts` and `.pages.yml` |
 
 ## Before you push
 

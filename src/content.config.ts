@@ -3,9 +3,10 @@ import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import { categoryKeys } from './data/site';
 
-// Files that start with an underscore, like _template.mdx, are ignored.
+// Projects are Markdown files, usually added through Pages CMS.
+// Files that start with an underscore are ignored.
 const projects = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.mdx', base: './src/content/projects' }),
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -22,4 +23,10 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { projects };
+// Single pages whose text is edited in Pages CMS, such as About.
+const pages = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/pages' }),
+  schema: z.object({ title: z.string() }),
+});
+
+export const collections = { projects, pages };

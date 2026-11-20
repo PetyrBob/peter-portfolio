@@ -1,0 +1,13 @@
+{
+  "name": "Peter Bob Domogma",
+  "title": "Peter Bob Domogma, UI/UX designer and front-end developer",
+  "description": "Portfolio of Peter Bob Domogma: UI/UX design, logos and branding, social media, print and front-end work.",
+  "intro": "I design interfaces and brands, then build them for the web.",
+  "email": "",
+  "resume": "",
+  "links": [
+    { "label": "LinkedIn", "url": "" },
+    { "label": "GitHub", "url": "" },
+    { "label": "Behance", "url": "" }
+  ]
+}
